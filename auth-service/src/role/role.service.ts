@@ -5,7 +5,6 @@ import { Role } from "./role.model";
 
 @Injectable()
 export class RoleService {
-
     constructor(@InjectModel(Role) private roleRepository: typeof Role) { }
 
     async createRole(dto: CreateRoleDto) {

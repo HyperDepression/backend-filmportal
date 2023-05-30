@@ -1,4 +1,6 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
+import { UserRole } from "../role/user_role.model";
+import { Role } from "../role/role.model";
 
 interface IUser {
 	id: number
@@ -8,7 +10,7 @@ interface IUser {
 	profileId: number
 }
 
-@Table({ tableName: 'users', timestamps: false, freezeTableName: true })
+@Table({ tableName: 'users' })
 export class User extends Model<User, IUser> {
 	@Column({
 		type: DataType.INTEGER,
@@ -39,4 +41,7 @@ export class User extends Model<User, IUser> {
 
 	@Column({ type: DataType.INTEGER })
 	profileId: number;
+
+	@BelongsToMany(() => Role, () => UserRole)
+	roles: Role[];
 }

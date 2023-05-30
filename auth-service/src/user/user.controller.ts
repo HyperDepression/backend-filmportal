@@ -2,6 +2,7 @@ import { Controller } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MessagePattern, Payload } from "@nestjs/microservices";
 import { CreateUserDto } from './dto/create_user.dto';
+import { AddRoleDto } from './dto/add_role.dto';
 
 @Controller('users')
 export class UserController {
@@ -9,7 +10,7 @@ export class UserController {
 	}
 
 	@MessagePattern('register')
-	async create(@Payload() dto: CreateUserDto) {
+	async register(@Payload() dto: CreateUserDto) {
 		return await this.userService.register(dto)
 	}
 
@@ -18,10 +19,10 @@ export class UserController {
 		return await this.userService.login(dto)
 	}
 
-	@MessagePattern('get_user_by_id')
-	getUserById(@Payload() id: number) {
-		return this.userService.getUserById(id)
-	}
+	@MessagePattern('add_role')
+	async addRole(@Payload() dto: AddRoleDto) {
+        return this.userService.addRole(dto)
+    }
 
 	@MessagePattern('get_user_by_email')
 	async getByEmail(@Payload() email: string) {
@@ -33,8 +34,8 @@ export class UserController {
 		return await this.userService.getAllUsers();
 	}
 
-	@MessagePattern('delete_user')
-	async deleteById(@Payload() data: { id: number }) {
-		return await this.userService.deleteUserById(data.id)
+	@MessagePattern('delete_user_by_email')
+	async deleteByEmail(@Payload() data: { email: string}) {
+		return await this.userService.deleteUserByEmail(data.email)
 	}
 }
